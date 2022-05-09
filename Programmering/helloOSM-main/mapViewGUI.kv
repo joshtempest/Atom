@@ -1,0 +1,61 @@
+#:import sys sys
+#:import MapSource kivy.garden.mapview.MapSource
+
+Content:
+    lat: 56
+    lon: 11.5
+    zoom: 7
+    map_source: 'osm'
+    CityMarkerPopup:
+        latitude: 55.2258
+        longitude: 11.7595
+        title: 'Næstved'
+        description: 'Verdens navle. Danmarks New York. Capital of Cool.'
+        imageUrl: 'https://naestved.netavis.dk/wp-content/uploads/sites/6/2020/11/unnamed-24.jpg'
+    SchoolMarkerPopup:
+        latitude: 55.0151
+        longitude: 11.9167
+        title: 'Zealand Business College, Teknisk Gymnasium Vordingborg'
+        description: 'For de få men rå.'
+        imageUrl: 'https://www.graakjaer.com/admin/public/getimage.ashx?Image=/Files/A-Photos/References/DK_industry/Undervisning/5089_ZBC_Zealand_business_College_1.jpg&Resolution=72&Compression=90&Width=767&Height=500&Crop=0'
+    LollandMarkerPopup:
+        latitude:
+        longitude:
+        title:
+        description:
+        imageUrl:
+
+<SchoolMarkerPopup@POIMarkerPopup>:
+    source: 'schoolmarker.png'
+
+<CityMarkerPopup@POIMarkerPopup>
+    source: 'citymarker.png'
+
+<POIMarkerPopup>:
+    lat: root.latitude
+    lon: root.longitude
+    popup_size: dp(500), dp(200)
+    Bubble:
+        BoxLayout:
+            orientation: 'vertical'
+            padding: '5dp'
+            spacing: '5dp'
+            Label:
+                size_hint_y: None
+                text_size: self.width, None
+                height: self.texture_size[1]
+                text: '[b]{}[/b]'.format(root.title)
+                markup: True
+                halign: 'center'
+            BoxLayout:
+                orientation: 'horizontal'
+                padding: '5dp'
+                halign: 'left'
+                AsyncImage:
+                    source: root.imageUrl
+                    mipmap: True
+                Label:
+                    text_size: self.width, None
+                    text: root.description
+                    halign: 'left'
+                    valign: 'top'

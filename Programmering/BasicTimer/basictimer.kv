@@ -1,0 +1,46 @@
+#:import kivy kivy
+<Picker>:
+	Button:
+		text:'+'
+		on_release: root.add()
+	Label:
+		text:root.displayText
+	Button:
+		text:'-'
+		on_release: root.sub()
+
+
+<TimerLayout>:
+	orientation: 'vertical'
+	Picker:
+		id:yearpicker
+		maxValue:2100
+		minValue:2000
+		value: 2022
+	Picker:
+		id:monthpicker
+		maxValue:12
+		minValue:1
+		value: 6
+	Picker:
+		id:daypicker
+		maxValue:31
+		minValue:1
+		value: 15
+	Picker:
+		id:hourpicker
+		maxValue:24
+		minValue:1
+		value: 12
+	Picker:
+		id:minutepicker
+		maxValue:60
+		minValue:1
+		value: 30
+	Label:
+		text: root.timerText
+		font_size: self.height * 0.5
+	Button:
+		text: root.buttonText
+		font_size: self.height * 0.3
+		on_release: root.toggle()
