@@ -5,7 +5,6 @@ import pyautogui as pag
 def farming(times):
     while times >= 1:
         times = times - 1
-        print(times)
         crop()
         quantity()
         harvest()
@@ -44,15 +43,12 @@ def harvest():
         time.sleep(0.5)
         key.press_and_release('g')
         harvesting = harvesting + 1
-        print(harvesting)
         time.sleep(9)
 
 def start():
     seeds = int(input('how many seeds? '))
     calcSeed = seeds - seeds%5
-    print(calcSeed)
     repeats = calcSeed/5
-    print(repeats)
     running = True
     print('Do not have more than 99 in quantity and have your craft closed, to start press t')
     while running == True:
