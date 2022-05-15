@@ -18,13 +18,13 @@ def crop(selection):
     if selection == "apprentice" or selection == 'appr':
         pag.moveTo(1140, 130)
         pag.click()
-        time.sleep(0.5)
+        time.sleep(1)
         pag.moveTo(1150, 217)
         pag.click()
-        time.sleep(0.5)
+        time.sleep(1)
         pag.moveTo(1246, 260)
         pag.click()
-        time.sleep(0.5)
+        time.sleep(1)
     elif selection == 'journeyman' or selection == 'jour':
         pag.moveTo(1140, 150)
         pag.click()
