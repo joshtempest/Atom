@@ -8,7 +8,7 @@ def farming(times, selection):
         crop(selection)
         quantity()
         harvest()
-        time.sleep(1)
+        time.sleep(2)
     print('done with farming')
     exit()
 
