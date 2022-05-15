@@ -2,21 +2,39 @@ import keyboard as key
 import time
 import pyautogui as pag
 
-def farming(times):
+def farming(times, selection):
     while times >= 1:
         times = times - 1
-        crop()
+        crop(selection)
         quantity()
         harvest()
         time.sleep(1)
     print('done with farming')
     exit()
 
-def crop():
-    pag.click(1246, 282)
-    time.sleep(1)
-    pag.click()
+def crop(selection):
+    pag.click(1160, 112)
     time.sleep(0.5)
+    if selection == "apprentice" or selection == 'appr':
+        pag.moveTo(1140, 130)
+        pag.click()
+        time.sleep(0.5)
+        pag.moveTo(1150, 217)
+        pag.click()
+        time.sleep(0.5)
+        pag.moveTo(1246, 260)
+        pag.click()
+        time.sleep(0.5)
+    elif selection == 'journeyman' or selection == 'jour':
+        pag.moveTo(1140, 150)
+        pag.click()
+        time.sleep(0.5)
+        pag.moveTo(1150, 187)
+        pag.click()
+        time.sleep(0.5)
+        pag.moveTo(1200, 223)
+        pag.click()
+        time.sleep(0.5)
 
 def quantity():
     pag.tripleClick(1735, 555)
@@ -49,13 +67,14 @@ def start():
     seeds = int(input('how many seeds? '))
     calcSeed = seeds - seeds%5
     repeats = calcSeed/5
+    selection = input('apprentice(appr), journeyman(jour)? ')
     running = True
     print('Do not have more than 99 in quantity and have your craft closed, to start press t')
     while running == True:
         if key.is_pressed('t'):
             print('go to the game')
             time.sleep(5)
-            farming(repeats)
+            farming(repeats, selection)
             running = False
         if key.is_pressed('esc'):
             exit()
