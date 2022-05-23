@@ -2,10 +2,10 @@ import keyboard as key
 import time
 import pyautogui as pag
 
-def farming(times, selection):
+def farming(times):#, selection):
     while times >= 1:
         times = times - 1
-        crop(selection)
+        #crop(selection)
         quantity()
         harvest()
         time.sleep(2)
@@ -55,26 +55,33 @@ def harvest():
     pag.click(1000, 200)
     pag.click()
     time.sleep(0.5)
-    harvesting = 0
-    while harvesting <= 5:
-        key.press_and_release('y')
-        time.sleep(0.5)
-        key.press_and_release('g')
-        harvesting = harvesting + 1
-        time.sleep(9)
+    cropsRemaining = 5
+    harvesting = True
+    time.sleep(0.5)
+    while harvesting == True:
+        if cropsRemaining != 0:
+            cropsRemaining = cropsRemaining - 1
+            key.press_and_release('y')
+            time.sleep(0.5)
+            key.press_and_release('g')
+            time.sleep(0.5)
+        else:
+            harvesting = False
+            time.sleep(30)
+            return
 
 def start():
     seeds = int(input('how many seeds? '))
     calcSeed = seeds - seeds%5
     repeats = calcSeed/5
-    selection = input('apprentice(appr), journeyman(jour)? ')
+    #selection = input('apprentice(appr), journeyman(jour)? ')
     running = True
     print('Do not have more than 99 in quantity and have your craft closed, to start press t')
     while running == True:
         if key.is_pressed('t'):
             print('go to the game')
             time.sleep(5)
-            farming(repeats, selection)
+            farming(repeats)#, selection)
             running = False
         if key.is_pressed('esc'):
             exit()
