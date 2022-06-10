@@ -10,7 +10,7 @@ while running == True:
         repeats = 0
     if keyboard.is_pressed('esc'):
         exit()
-    if keyboard.is_pressed("r"):
+    if keyboard.is_pressed("r"):x
         print('reloaded')
         shots = 6
         repeats = 1
