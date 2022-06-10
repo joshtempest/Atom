@@ -6,7 +6,7 @@ running = True
 
 while running == True:
     if shots == 0 and repeats == 1:
-        print('out of ammo')
+        print('out of ammo, press r to reload')
         repeats = 0
     if keyboard.is_pressed('esc'):
         exit()
