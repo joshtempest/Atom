@@ -61,7 +61,7 @@ def main():
 
         #Starts combat if the player enters these coordinats, to test the combat system
         if 500 <= xpos <= 550 and 500 <= ypos <= 550:
-            combat()
+            HP = combat(PlayerHP)
 
 
     # Update the position of the smiley
@@ -92,7 +92,7 @@ def main():
 cscreen = pygame.display.set_mode((screen_width, screen_height))
 
 
-def combat():
+def combat(HP):
     #A list of enemies to randomly be chosen when combat is called
     enemies = ["Atom", "Birb", "Python"]
     enemy = random.choice(enemies)
@@ -129,24 +129,39 @@ def combat():
         #hence the map sprite for enemy is used
         enemypicture = pygame.image.load("enemy.png")#enemy + ".png")
         #Puts the two pictures on the screen and shows them
-        cscreen.blit(fimage, (screen_width - 220, screen_height - 410))
+        #cscreen.blit(fimage, (screen_width - 220, screen_height - 410))
         cscreen.blit(enemypicture, (screen_width - 1000, screen_height - 1000))
+        playerhealth = Text.render(('Player HP: ' + str(HP)), True, pygame.Color('green'))
+        cscreen.blit(playerhealth, (textW, screen_height - 100))
         pygame.display.flip()
         #Gets enemys current health and dmg modifier from playerattack function which needs current health
-        currentEHP, DMGModifier = playerAttack(currentEHP)
-        #Checks to see if enemy health is over zero and gives the enemy its turn.
-        if currentEHP > 0:
-            enemyAttack(enemy)
-        #If enemy is dead victory screen is loaded after screen "reset" and combat is stopped
-        else:
+        if HP <= 0:
             cscreen.fill(transparent)
-            Vic = Text.render(("You have won! Congratulations!"), True, pygame.Color('gold'))
-            cscreen.blit(Vic, (textW, textH))
+            defeat = Text.render(("You have lost! Try again, if you dare!"), True, pygame.Color('red'))
+            cscreen.blit(defeat, (textW, textH))
             pygame.display.flip()
             time.sleep(2)
             crunning = False
+            running = False
+            main()
+        else:
+            currentEHP, DMGModifier = playerAttack(currentEHP, playerhealth)
+            cscreen.fill(transparent)
+            cscreen.blit(enemypicture, (screen_width - 1000, screen_height - 1000))
+            pygame.display.flip()
+            #Checks to see if enemy health is over zero and gives the enemy its turn.
+            if currentEHP > 0:
+                HP = enemyAttack(enemy, HP, DMGModifier)
+            #If enemy is dead victory screen is loaded after screen "reset" and combat is stopped
+            else:
+                cscreen.fill(transparent)
+                Vic = Text.render(("You have won! Congratulations!"), True, pygame.Color('gold'))
+                cscreen.blit(Vic, (textW, textH))
+                pygame.display.flip()
+                time.sleep(2)
+                crunning = False
 
-def playerAttack(currentEHP):
+def playerAttack(currentEHP, playerhealth):
     #sets variables to be used
     playerDMG = 0
     enemyDMG = 0
@@ -163,6 +178,7 @@ def playerAttack(currentEHP):
         ehp = Text.render('Enemy HP: ' + (str(enemyHP)), True, pygame.Color('white'))
         #Displays the previous texts
         cscreen.blit(ehp, (textW, 100))
+        cscreen.blit(playerhealth, (textW, screen_height - 100))
         cscreen.blit(moveChoice, (textW, textH))
         pygame.display.flip()
         cscreen.fill(transparent)
@@ -222,7 +238,7 @@ def playerAttack(currentEHP):
             crunning = False
             return enemyHP, dmgMultiplier
 
-def enemyAttack(enemy):
+def enemyAttack(enemy, HP, DMGModifier):
     #Dependent on the enemy a list of possible attack is made and a random one is selected
     if enemy == "Atom":
         moves = [2,3,4]
@@ -236,13 +252,14 @@ def enemyAttack(enemy):
     #
     if move == 1 or move == 5:
         emove = Text.render((enemy + " used kick!"), True, pygame.Color('white'))
-        edmg = Text.render(('It dealt 20 dmg'), True, pygame.Color('red'))
-        enemyDMG = 20
+        enemyDMG = 20 * DMGModifier
+        edmg = Text.render(('It dealt ' + str(enemyDMG) + ' dmg'), True, pygame.Color('red'))
+        HP = HP - enemyDMG
         cscreen.blit(emove, (textW, textH))
         cscreen.blit(edmg, (textW, textH + 50))
         pygame.display.flip()
         time.sleep(2)
-        return enemyDMG
+        return HP
 """    elif move == 2:
         print(enemy + " used bug!")
         print("Does critical dmg")
